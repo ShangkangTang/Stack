@@ -1,0 +1,129 @@
+/*
+文件名：1_1_3_0
+作者：汤善康
+日期：2019年7月3日
+*/
+/*栈存储*/
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#define MAX 100
+
+typedef int Status;
+typedef struct
+{
+	long ID;
+	char name[10];
+	int grade;
+}student;
+typedef student elemtype;
+//定义一个栈
+typedef struct  
+{
+	elemtype *elem;
+	int top;
+}SqStack;
+//初始化空栈
+Status InitStack(SqStack &S)
+{
+	S.elem = (elemtype*)malloc(sizeof(elemtype)*MAX);
+	if (S.elem)//成功创建
+	{
+		S.top = 0;
+		return 1;
+	}
+	else
+		return 0;
+}
+//入栈操作
+Status Push(SqStack &S, elemtype &L)
+{
+	if (S.top == MAX - 1)//判断是否栈已满
+		return 0;//返回0
+	else
+		S.elem[S.top++] = L;//栈顶指针加1，并将L赋值给栈顶空间
+	return 1;//返回1
+
+}
+//出栈操作
+Status	Pop(SqStack &S, elemtype &L)
+{
+	if (S.top == 0)//判断是否为空栈
+		return 0;//返回0
+	else
+		L = S.elem[S.top--];//删除栈顶元素并用L返回其值
+
+		return 1;
+}
+//录入学生信息
+void Input(elemtype &L)
+{
+	printf("请输入学生ID:");
+	scanf("%d", &L.ID);
+	printf("请输入学生姓名：");
+	scanf("%s", &L.name);
+	printf("请输入学生成绩：");
+	scanf("%d", &L.grade);
+}
+//打印输出学生信息
+void Output(elemtype &L)
+{
+	printf("%8d%8s%8d\n", L.ID, L.name, L.grade);
+}
+//获取栈顶元素
+Status Getelem(SqStack &S,elemtype elem)
+{
+	if (S.top == 0)
+		return 0;
+	else
+		elem = S.elem[S.top];
+	return 1;
+}
+int main()
+{
+	SqStack S;
+	elemtype a;
+	int b;//欲选择的程序序号
+
+
+	printf("**************\n");
+	printf("1.建立空栈\n");
+	printf("2.入栈\n");
+	printf("3.出栈\n");
+	printf("4.获取栈顶元素\n");
+	printf("**************\n");
+	while (1)
+	{
+		printf("请输入要选择的程序序号：\n");
+		scanf("%d", &b);
+		switch (b)
+		{
+			case 1:
+				if (InitStack(S) == 1)
+					printf("成功建立空栈\n");
+				else
+					printf("建立失败\n");
+				break;
+			case 2:
+				Input(a);
+				if (Push(S, a) == 1)
+					printf("成功入栈\n");
+				else
+					printf("入栈失败\n");
+				break;
+			case 3:
+				if (Pop(S, a) == 1)
+					printf("成功出栈");
+				else
+					printf("出栈失败");
+				break;
+			case 4:
+				Getelem(S, a);
+				Output(a);
+				break;
+		}
+	}
+	
+}
+
